@@ -1,0 +1,6 @@
+INPUT "Digite sua altura em metros: "; altura
+INPUT "Digite seu peso em quilogramas: "; peso
+
+imc = peso / (altura * altura)
+
+PRINT "Seu IMC é: "; imc
