@@ -1,19 +1,15 @@
-INPUT "DIGITE A PRIMEIRA NOTA: ", NOTA1
-INPUT "DIGITE A SEGUNDA NOTA: ", NOTA2
+INPUT "Digite a primeira nota: "; nota1
+INPUT "Digite a segunda nota: "; nota2
 
-MEDIA = (NOTA1 + NOTA2) / 2
+media = (nota1 + nota2) / 2
 
-IF MEDIA > 60 THEN
-    PRINT "APROVADO DIRETO"
-IF MEDIA < 30 THEN
-    PRINT "REPROVADO DIRETO"
-ELSE
-    INPUT "DIGITE A NOTA DA NP3: ", NP3
-    NOVAMEDIA = (MEDIA + NP3) / 2
-
-    IF NOVAMEDIA > 50 THEN
-        PRINT "APROVADO PELA NP3"
+IF media > 60 THEN PRINT "Aprovado direto"
+IF media < 30 THEN PRINT "Reprovado direto"
+    INPUT "Digite a nota da NP3: "; np3
+    novaMedia = (media + np3) / 2
+    IF novaMedia > 50 THEN
+        PRINT "Aprovado pela NP3"
     ELSE
-        PRINT "REPROVADO NA NP3"
+        PRINT "Reprovado na NP3"
     END IF
 END IF
