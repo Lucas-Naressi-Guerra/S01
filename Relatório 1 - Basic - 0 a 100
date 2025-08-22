@@ -1,1 +1,15 @@
-a
+RANDOMIZE TIMER
+numeroSecreto = INT(RND * 101)
+
+DO
+    INPUT "Tente adivinhar o número (0 a 100): ", palpite
+
+    IF palpite < numeroSecreto THEN
+        PRINT "O número é maior que "; palpite
+    ELSE palpite > numeroSecreto THEN
+        PRINT "O número é menor que "; palpite
+    ELSE
+        PRINT "Parabéns! Você acertou!"
+    END IF
+LOOP WHILE palpite <> numeroSecreto
+
