@@ -1,0 +1,36 @@
+use std::io;
+
+fn calcular_media(nota1: f64, nota2: f64, nota3: f64) -> f64 {
+    let peso1 = 2.0;
+    let peso2 = 3.0;
+    let peso3 = 5.0;
+    let soma_pesos = peso1 + peso2 + peso3;
+
+    (nota1 * peso1 + nota2 * peso2 + nota3 * peso3) / soma_pesos
+}
+
+fn main() {
+    println!("Digite a primeira nota:");
+    let mut entrada1 = String::new();
+    io::stdin().read_line(&mut entrada1).expect("Erro ao ler nota1");
+    let nota1: f64 = entrada1.trim().parse().expect("Digite um número válido");
+
+    println!("Digite a segunda nota:");
+    let mut entrada2 = String::new();
+    io::stdin().read_line(&mut entrada2).expect("Erro ao ler nota2");
+    let nota2: f64 = entrada2.trim().parse().expect("Digite um número válido");
+
+    println!("Digite a terceira nota:");
+    let mut entrada3 = String::new();
+    io::stdin().read_line(&mut entrada3).expect("Erro ao ler nota3");
+    let nota3: f64 = entrada3.trim().parse().expect("Digite um número válido");
+
+    let media = calcular_media(nota1, nota2, nota3);
+    println!("\nMédia ponderada: {:.2}", media);
+
+    if media >= 7.0 {
+        println!("Aprovado!");
+    } else {
+        println!("Reprovado.");
+    }
+}
