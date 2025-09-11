@@ -1,0 +1,24 @@
+package main
+
+import (
+		"fmt"
+)
+
+func classificarNumero(num int) string {
+		if num > 0 {
+				return "Positivo"
+		} else if num < 0 {
+				return "Negativo"
+		} else {
+				return "Zero"
+		}
+}
+
+func main() {
+		var entrada int
+		fmt.Print("Digite um número inteiro: ")
+		fmt.Scan(&entrada)
+
+		resultado := classificarNumero(entrada)
+		fmt.Println("Classificação:", resultado)
+}
