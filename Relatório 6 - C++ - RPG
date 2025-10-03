@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+class Personagem {
+public:
+    string nome;
+    int nivel;
+    int dano;
+    int vida;
+
+    void atacar(Personagem &alvo) {
+        cout << nome << " atacou " << alvo.nome << " causando " << dano << " de dano!" << endl;
+        alvo.vida -= dano;
+        if (alvo.vida < 0) alvo.vida = 0;
+    }
+
+    void mostrarStatus() {
+        cout << "Nome: " << nome << endl;
+        cout << "Nivel: " << nivel << endl;
+        cout << "Dano: " << dano << endl;
+        cout << "Vida: " << vida << endl;
+        cout << "------------------------" << endl;
+    }
+
+    void preencherDados() {
+        cout << "Digite o nome do personagem: ";
+        cin >> nome;
+        cout << "Digite o nivel: ";
+        cin >> nivel;
+        cout << "Digite o dano da arma: ";
+        cin >> dano;
+        cout << "Digite os pontos de vida: ";
+        cin >> vida;
+        cout << endl;
+    }
+};
+
+int main() {
+    Personagem p1, p2;
+
+    cout << " Cadastro do Personagem 1 \n";
+    p1.preencherDados();
+
+    cout << " Cadastro do Personagem 2 \n";
+    p2.preencherDados();
+
+    cout << "\nStatus antes do combate:\n";
+    p1.mostrarStatus();
+    p2.mostrarStatus();
+
+    // Escolha de ataque
+    int escolha;
+    cout << "Quem vai atacar? (1 para " << p1.nome << ", 2 para " << p2.nome << "): ";
+    cin >> escolha;
+
+    if (escolha == 1) {
+        p1.atacar(p2);
+    } else if (escolha == 2) {
+        p2.atacar(p1);
+    } else {
+        cout << "Escolha invalida.";
+    }
+
+    cout << "\nStatus apos o combate:\n";
+    p1.mostrarStatus();
+    p2.mostrarStatus();
+
+    return 0;
+}
