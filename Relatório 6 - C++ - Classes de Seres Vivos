@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Classe base
+class SerVivo {
+protected:
+    string nome;
+
+public:
+    void setNome(string n) {
+        nome = n;
+    }
+
+    virtual void apresentar() const {
+        cout << "Eu sou um ser vivo chamado " << nome << "." << endl;
+    }
+
+    virtual ~SerVivo() {} // destrutor virtual para evitar vazamento de memória
+};
+
+// Classe derivada: Humano
+class Humano : public SerVivo {
+public:
+    void apresentar() const override {
+        cout << "Olá! Meu nome é " << nome << " e sou um humano corajoso." << endl;
+    }
+};
+
+// Classe derivada: Elfo
+class Elfo : public SerVivo {
+public:
+    void apresentar() const override {
+        cout << "Saudações! Sou " << nome << ", um elfo das florestas antigas." << endl;
+    }
+};
+
+// Classe derivada: Fada
+class Fada : public SerVivo {
+public:
+    void apresentar() const override {
+        cout << "Oi! Eu sou " << nome << ", uma fada encantada do reino mágico." << endl;
+    }
+};
+
+int main() {
+	setlocale(LC_ALL, "portuguese");
+    // Lista de ponteiros para SerVivo
+    vector<SerVivo*> seres;
+
+    // Criando instâncias
+    Humano* h = new Humano();
+    h->setNome("Arthur");
+
+    Elfo* e = new Elfo();
+    e->setNome("Lúthien");
+
+    Fada* f = new Fada();
+    f->setNome("Nimue");
+
+    // Adicionando à lista
+    seres.push_back(h);
+    seres.push_back(e);
+    seres.push_back(f);
+
+    // Apresentações via polimorfismo
+    cout << "\n=== Apresentações dos Seres Vivos ===\n";
+    for (SerVivo* s : seres) {
+        s->apresentar();
+    }
+
+    // Liberando memória
+    for (SerVivo* s : seres) {
+        delete s;
+    }
+
+    return 0;
+}
