@@ -1,0 +1,113 @@
+#include <iostream>
+using namespace std;
+
+class Pessoa {
+private:
+    string nome;
+    int idade;
+
+public:
+    void setNome(string n) {
+        nome = n;
+    }
+
+    void setIdade(int i) {
+        idade = i;
+    }
+
+    string getNome() const {
+        return nome;
+    }
+
+    int getIdade() const {
+        return idade;
+    }
+
+    void mostrarDados() const {
+        cout << "Nome: " << nome << endl;
+        cout << "Idade: " << idade << endl;
+    }
+};
+
+class Protagonista : public Pessoa {
+private:
+    int nivel;
+
+public:
+    void setNivel(int n) {
+        nivel = n;
+    }
+
+    int getNivel() const {
+        return nivel;
+    }
+
+    void mostrarDados() const {
+        Pessoa::mostrarDados();
+        cout << "Nivel: " << nivel << endl;
+        cout << "------------------------" << endl;
+    }
+};
+
+class Personagem : public Pessoa {
+private:
+    int rank;
+
+public:
+    void setRank(int r) {
+        if (r >= 0 && r <= 10)
+            rank = r;
+        else
+            rank = 0; 
+    }
+
+    int getRank() const {
+        return rank;
+    }
+
+    void mostrarDados() const {
+        Pessoa::mostrarDados();
+        cout << "Rank Social Link: " << rank << endl;
+        cout << "------------------------" << endl;
+    }
+};
+
+int main() {
+    Protagonista heroi;
+    Personagem aliado;
+
+    // Entrada de dados
+    string nome;
+    int idade, nivel, rank;
+
+    cout << "=== Cadastro do Protagonista ===\n";
+    cout << "Nome: ";
+    cin >> nome;
+    cout << "Idade: ";
+    cin >> idade;
+    cout << "Nivel: ";
+    cin >> nivel;
+
+    heroi.setNome(nome);
+    heroi.setIdade(idade);
+    heroi.setNivel(nivel);
+
+    cout << "\n=== Cadastro do Personagem Aliado ===\n";
+    cout << "Nome: ";
+    cin >> nome;
+    cout << "Idade: ";
+    cin >> idade;
+    cout << "Rank (0 a 10): ";
+    cin >> rank;
+
+    aliado.setNome(nome);
+    aliado.setIdade(idade);
+    aliado.setRank(rank);
+
+    // Exibindo dados
+    cout << "\n=== Informações dos Personagens ===\n";
+    heroi.mostrarDados();
+    aliado.mostrarDados();
+
+    return 0;
+}
