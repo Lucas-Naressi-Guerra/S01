@@ -1,0 +1,62 @@
+using System;
+
+namespace SociedadeDoAnel
+{
+    public class MembroDaSociedade
+    {
+        private string nome;
+        private string raca;
+        private string funcao;
+
+        public MembroDaSociedade(string nome, string raca, string funcao)
+        {
+            this.nome = nome;
+            this.raca = raca;
+            this.funcao = funcao;
+        }
+
+        public void Descrever()
+        {
+            Console.WriteLine("\n--- Membro da Sociedade ---");
+            Console.WriteLine($"Nome: {nome}");
+            Console.WriteLine($"Raça: {raca}");
+            Console.WriteLine($"Função: {funcao}");
+            Console.WriteLine("---------------------------");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Digite os dados do primeiro membro:");
+            Console.Write("Nome: ");
+            string nome1 = Console.ReadLine();
+
+            Console.Write("Raça: ");
+            string raca1 = Console.ReadLine();
+
+            Console.Write("Função: ");
+            string funcao1 = Console.ReadLine();
+
+            MembroDaSociedade membro1 = new MembroDaSociedade(nome1, raca1, funcao1);
+
+            Console.WriteLine("\nDigite os dados do segundo membro:");
+            Console.Write("Nome: ");
+            string nome2 = Console.ReadLine();
+
+            Console.Write("Raça: ");
+            string raca2 = Console.ReadLine();
+
+            Console.Write("Função: ");
+            string funcao2 = Console.ReadLine();
+
+            MembroDaSociedade membro2 = new MembroDaSociedade(nome2, raca2, funcao2);
+
+            // Exibindo os dados
+            membro1.Descrever();
+            membro2.Descrever();
+
+        }
+    }
+}
