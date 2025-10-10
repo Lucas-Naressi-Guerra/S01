@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+
+class Pokemon
+{
+    public string Nome;
+    public string Tipo;
+
+    public Pokemon(string nome, string tipo)
+    {
+        Nome = nome;
+        Tipo = tipo;
+    }
+
+    public void Atacar()
+    {
+        if (Tipo == "Fogo")
+        {
+            Console.WriteLine($"{Nome} lança uma rajada de fogo!");
+        }
+        else if (Tipo == "Água")
+        {
+            Console.WriteLine($"{Nome} lança um jato de água!");
+        }
+        else
+        {
+            Console.WriteLine($"{Nome} realiza um ataque genérico.");
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        List<Pokemon> pokemons = new List<Pokemon>();
+
+        pokemons.Add(new Pokemon("Charizard", "Fogo"));
+        pokemons.Add(new Pokemon("Blastoise", "Água"));
+
+        Console.WriteLine("=== Batalha Pokémon ===");
+        foreach (Pokemon p in pokemons)
+        {
+            p.Atacar();
+        }
+
+    }
+}
