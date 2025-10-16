@@ -1,0 +1,50 @@
+from abc import ABC, abstractmethod
+
+class Cibernetico(ABC):
+    @abstractmethod
+    def realizar_hack(self):
+        pass
+
+class Implante:
+    def __init__(self, custo, funcao):
+        self.custo = custo
+        self.funcao = funcao
+
+    def __str__(self):
+        return f"{self.funcao} (Custo: {self.custo} créditos)"
+
+class NetRunner(Cibernetico):
+    def __init__(self, nome, implante):
+        self.nome = nome
+        self.implante = implante
+
+    def realizar_hack(self):
+        print(f"{self.nome} executa um hack com {self.implante}")
+
+class Faccao:
+    def __init__(self, membros):
+        self.membros = membros
+
+    def executar_hack_em_grupo(self):
+        print("\n Hack coletivo da facção ")
+        for membro in self.membros:
+            membro.realizar_hack()
+
+print(" Criação de NetRunners ")
+quantidade = int(input("Quantos hackers deseja criar? "))
+
+membros = []
+for i in range(quantidade):
+    print(f"\n--- Hacker {i+1} ---")
+    nome = input("Nome do NetRunner: ")
+    funcao_implante = input("Função do implante: ")
+    custo_implante = int(input("Custo do implante (em créditos): "))
+    implante = Implante(custo_implante, funcao_implante)
+    hacker = NetRunner(nome, implante)
+    membros.append(hacker)
+
+# Criando facção com os hackers
+faccao = Faccao(membros)
+
+# Executando hack coletivo
+faccao.executar_hack_em_grupo()
