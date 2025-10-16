@@ -1,0 +1,39 @@
+class Heroi:
+    def __init__(self, nome, funcao):
+        self.nome = nome
+        self.funcao = funcao
+
+    def usar_ultimate(self):
+        print(f"{self.nome} usa sua habilidade suprema de forma genérica.")
+
+
+class Tanque(Heroi):
+    def usar_ultimate(self):
+        print(f"{self.nome} ativa um escudo impenetrável e avança contra os inimigos!")
+
+
+class Dano(Heroi):
+    def usar_ultimate(self):
+        print(f"{self.nome} dispara uma rajada de energia devastadora!")
+
+
+class Suporte(Heroi):
+    def usar_ultimate(self):
+        print(f"{self.nome} cura todos os aliados próximos com uma onda de energia vital!")
+
+print(" Criando um Herói de Overwatch ")
+nome = input("Digite o nome do herói: ")
+funcao = input("Digite a função (Tanque, Dano ou Suporte): ").strip().lower()
+
+if funcao == "tanque":
+    heroi = Tanque(nome, "Tanque")
+elif funcao == "dano":
+    heroi = Dano(nome, "Dano")
+elif funcao == "suporte":
+    heroi = Suporte(nome, "Suporte")
+else:
+    heroi = Heroi(nome, "Indefinido")
+    print("Função não reconhecida. Criado como herói genérico.")
+
+print("\n Habilidade Suprema ")
+heroi.usar_ultimate()
