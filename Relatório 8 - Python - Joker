@@ -1,0 +1,46 @@
+class ArmaCorpoACorpo:
+    def __init__(self, nome):
+        self.nome = nome
+
+    def __str__(self):
+        return f"Arma: {self.nome}"
+
+
+class PhantomThieves:
+    def __init__(self, nome, arma):
+        self.nome = nome
+        self.arma = arma
+
+    def __str__(self):
+        return f"Membro: {self.nome} | {self.arma}"
+
+
+class Joker:
+    def __init__(self, membros):
+        self.nome = "Joker"
+        self.arma = ArmaCorpoACorpo("Faca de combate")  
+        self.equipe = membros  
+
+    def mostrar_equipe(self):
+        print(f"\n=== Equipe de {self.nome} ===")
+        print(f"Arma principal: {self.arma.nome}")
+        for membro in self.equipe:
+            print(membro)
+
+
+print(" Criando membros da Phantom Thieves ")
+quantidade = int(input("Quantos membros deseja adicionar à equipe? "))
+
+membros = []
+for i in range(quantidade):
+    nome_membro = input(f"Nome do membro {i+1}: ")
+    nome_arma = input(f"Arma do membro {i+1}: ")
+    arma = ArmaCorpoACorpo(nome_arma)
+    membro = PhantomThieves(nome_membro, arma)
+    membros.append(membro)
+
+# Criando Joker com a equipe
+joker = Joker(membros)
+
+# Exibindo a equipe
+joker.mostrar_equipe()
