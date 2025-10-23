@@ -1,0 +1,93 @@
+module Rastreavel
+  def obter_localizacao(hora)
+    puts "#{@nome} foi localizado às #{hora} em #{@localizacao_atual}."
+  end
+end
+
+module Perigoso
+  def calcular_risco
+    risco = rand(50..100)
+    puts "  Nível de risco de #{@nome}: #{risco}%"
+    risco
+  end
+end
+
+class Participante
+  attr_reader :nome, :localizacao_atual
+
+  def initialize(nome, localizacao)
+    @nome = nome
+    @localizacao_atual = localizacao
+  end
+
+  def to_s
+    "#{@nome} (#{self.class})"
+  end
+end
+
+class Detetive < Participante
+  include Rastreavel
+
+  def investigar
+    puts " #{@nome} está investigando a área..."
+  end
+end
+
+class MestreDoCrime < Participante
+  include Rastreavel
+  include Perigoso
+
+  def planejar_crime
+    puts " #{@nome} está tramando algo sombrio..."
+  end
+end
+
+class Cenario
+  def initialize
+    @participantes = []
+  end
+
+  def adicionar_participante(p)
+    @participantes << p
+  end
+
+  def identificar_ameacas
+    @participantes.select { |p| p.respond_to?(:calcular_risco) }
+  end
+
+  def listar_ameacas
+    ameacas = identificar_ameacas
+    puts "\n Alvos perigosos identificados:"
+    ameacas.each do |a|
+      puts "- #{a.nome} (#{a.class})"
+    end
+  end
+end
+
+puts "=== Jogo das Sombras ==="
+
+print "Digite a localização atual de Sherlock: "
+loc_sherlock = gets.chomp
+print "Digite a localização atual de Moriarty: "
+loc_moriarty = gets.chomp
+
+sherlock = Detetive.new("Sherlock Holmes", loc_sherlock)
+moriarty = MestreDoCrime.new("Moriarty", loc_moriarty)
+
+cenario = Cenario.new
+cenario.adicionar_participante(sherlock)
+cenario.adicionar_participante(moriarty)
+
+puts "\n--- Localizações ---"
+sherlock.obter_localizacao("10:30")
+moriarty.obter_localizacao("10:45")
+
+puts "\n--- Ações ---"
+sherlock.investigar
+moriarty.planejar_crime
+
+puts "\n--- Análise de risco ---"
+moriarty.calcular_risco
+
+puts "\n--- Identificação de ameaças ---"
+cenario.listar_ameacas
