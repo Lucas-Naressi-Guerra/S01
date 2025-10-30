@@ -1,0 +1,73 @@
+// Classe base
+class Pokemon {
+  #vida; // atributo protegido
+
+  constructor(nome, tipo, vidaInicial) {
+    this.nome = nome;
+    this.tipo = tipo;
+    this.#vida = vidaInicial;
+  }
+
+  getVida() {
+    return this.#vida;
+  }
+
+  receberDano(dano) {
+    this.#vida -= dano;
+    if (this.#vida < 0) this.#vida = 0;
+    console.log(`${this.nome} recebeu ${dano} de dano! Vida atual: ${this.#vida}`);
+  }
+
+  atacar(alvo) {
+    console.log(`${this.nome} ataca genericamente ${alvo.nome}.`);
+  }
+}
+
+// Subclasses com ataques especializados
+class Pikachu extends Pokemon {
+  constructor(nome, vidaInicial = 100) {
+    super(nome, "Elétrico", vidaInicial);
+  }
+
+  atacar(alvo) {
+    console.log(`${this.nome} usa Choque do Trovão em ${alvo.nome}!`);
+    alvo.receberDano(25);
+  }
+}
+
+class Charmander extends Pokemon {
+  constructor(nome, vidaInicial = 100) {
+    super(nome, "Fogo", vidaInicial);
+  }
+
+  atacar(alvo) {
+    console.log(`${this.nome} lança uma Bola de Fogo em ${alvo.nome}!`);
+    alvo.receberDano(30);
+  }
+}
+
+class Squirtle extends Pokemon {
+  constructor(nome, vidaInicial = 100) {
+    super(nome, "Água", vidaInicial);
+  }
+
+  atacar(alvo) {
+    console.log(`${this.nome} usa Jato d’Água em ${alvo.nome}!`);
+    alvo.receberDano(20);
+  }
+}
+
+// Demonstração
+const pikachu = new Pikachu("Pikachu");
+const charmander = new Charmander("Charmander");
+const squirtle = new Squirtle("Squirtle");
+
+console.log("\n--- BATALHA INICIADA ---");
+pikachu.atacar(charmander);
+charmander.atacar(squirtle);
+squirtle.atacar(pikachu);
+
+console.log("\n--- STATUS FINAL ---");
+console.log(`${pikachu.nome}: ${pikachu.getVida()} de vida`);
+console.log(`${charmander.nome}: ${charmander.getVida()} de vida`);
+console.log(`${squirtle.nome}: ${squirtle.getVida()} de vida`);
