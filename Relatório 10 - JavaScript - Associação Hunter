@@ -1,1 +1,94 @@
+// Interface simulada (já que JS não tem interfaces nativas)
+class IRastreavel {
+  rastrearLocal(lat, long) {
+    throw new Error("Método 'rastrearLocal()' deve ser implementado!");
+  }
+}
+
+// Classe base Hunter (abstrata)
+class Hunter extends IRastreavel {
+  constructor(nome, localizacao, idade) {
+    super();
+    if (this.constructor === Hunter) {
+      throw new Error("Hunter é uma classe abstrata e não pode ser instanciada diretamente!");
+    }
+    this.nome = nome;
+    this.localizacao = localizacao;
+    this.idade = idade;
+  }
+}
+
+// Subclasse Especialista
+class Especialista extends Hunter {
+  constructor(nome, localizacao, idade, habilidadeNen) {
+    super(nome, localizacao, idade);
+    this.habilidadeNen = habilidadeNen;
+  }
+
+  rastrearLocal(lat, long) {
+    this.localizacao = `${lat}, ${long}`;
+    return ` Especialista ${this.nome} usou ${this.habilidadeNen} para rastrear em (${this.localizacao})`;
+  }
+}
+
+// Subclasse Manipulador
+class Manipulador extends Hunter {
+  constructor(nome, localizacao, idade, alvoAtual) {
+    super(nome, localizacao, idade);
+    this.alvoAtual = alvoAtual; // outro Hunter
+  }
+
+  rastrearLocal(lat, long) {
+    this.localizacao = `${lat}, ${long}`;
+    const alvoInfo = this.alvoAtual ? ` e está monitorando ${this.alvoAtual.nome}` : "";
+    return ` Manipulador ${this.nome} rastreou o local (${this.localizacao})${alvoInfo}`;
+  }
+}
+
+// Classe Batalhão
+class Batalhao {
+  constructor() {
+    this.hunters = new Set();
+  }
+
+  adicionarHunter(hunter) {
+    // Evita duplicatas com base no nome
+    for (const h of this.hunters) {
+      if (h.nome === hunter.nome) {
+        console.log(` Hunter ${hunter.nome} já está no batalhão.`);
+        return;
+      }
+    }
+    this.hunters.add(hunter);
+    console.log(` Hunter ${hunter.nome} adicionado ao batalhão.`);
+  }
+
+  getNumHunters() {
+    return this.hunters.size;
+  }
+
+  iniciarRastreamento(lat, long) {
+    console.log(`\n Iniciando rastreamento de todos os Hunters...\n`);
+    const relatorios = [];
+    for (const hunter of this.hunters) {
+      relatorios.push(hunter.rastrearLocal(lat, long));
+    }
+    return relatorios;
+  }
+}
+
+// Demonstração
+const gon = new Especialista("Gon Freecss", "Whale Island", 14, "Jajanken");
+const killua = new Manipulador("Killua Zoldyck", "Heaven’s Arena", 14, gon);
+const kurapika = new Especialista("Kurapika", "Yorknew", 17, "Correntes da Vingança");
+
+const batalhao = new Batalhao();
+batalhao.adicionarHunter(gon);
+batalhao.adicionarHunter(killua);
+batalhao.adicionarHunter(kurapika);
+batalhao.adicionarHunter(gon); // duplicado, não será adicionado
+
+console.log(`\nTotal de Hunters no batalhão: ${batalhao.getNumHunters()}`);
+console.log("\n=== RELATÓRIO DE RASTREAMENTO ===");
+batalhao.iniciarRastreamento("35.6°N", "139.7°E").forEach(r => console.log(r));
 
