@@ -1,0 +1,94 @@
+// Classe Criatura
+class Criatura {
+  constructor(nome, perigosa) {
+    this.nome = nome;
+    this.perigosa = perigosa;
+  }
+}
+
+// Classe Diario
+class Diario {
+  #autorSecreto;
+
+  constructor(autor) {
+    this.#autorSecreto = autor;
+    this.enigmas = new Map(); // num -> enigma
+    this.criaturasAvistadas = [];
+  }
+
+  getAutor() {
+    return this.#autorSecreto;
+  }
+
+  adicionarEnigma(num, enigma) {
+    this.enigmas.set(num, enigma);
+  }
+
+  adicionarCriatura(criatura) {
+    this.criaturasAvistadas.push(criatura);
+  }
+
+  decodificar(chave, num) {
+    if (chave !== this.#autorSecreto) {
+      return "Acesso negado! Autor secreto incorreto.";
+    }
+    const enigma = this.enigmas.get(num);
+    if (!enigma) {
+      return "Enigma não encontrado!";
+    }
+    return `Enigma ${num} decodificado: ${enigma}`;
+  }
+}
+
+// Classe Personagem
+class Personagem {
+  constructor(nome, idade) {
+    this.nome = nome;
+    this.idade = idade;
+  }
+}
+
+// Classe Protagonista (herda de Personagem)
+class Protagonista extends Personagem {
+  constructor(nome, idade, diario) {
+    super(nome, idade);
+    this.diario = diario;
+  }
+}
+
+// Classe CabanaMisterio
+class CabanaMisterio {
+  constructor() {
+    this.funcionarios = []; // agregação de Personagem
+  }
+
+  adicionarFuncionario(personagem) {
+    this.funcionarios.push(personagem);
+  }
+
+  listarFuncionarios() {
+    return this.funcionarios.map(p => `${p.nome}, ${p.idade} anos`);
+  }
+}
+
+// Demonstração
+const diarioDipper = new Diario("Dipper Pines");
+diarioDipper.adicionarEnigma(1, "O símbolo do portal aparece sob a lua cheia.");
+diarioDipper.adicionarEnigma(2, "Cuidado com o triângulo de chapéu!");
+
+const criatura1 = new Criatura("Gnomos", false);
+const criatura2 = new Criatura("Bill Cipher", true);
+diarioDipper.adicionarCriatura(criatura1);
+diarioDipper.adicionarCriatura(criatura2);
+
+const dipper = new Protagonista("Dipper Pines", 12, diarioDipper);
+const mabel = new Personagem("Mabel Pines", 12);
+const stan = new Personagem("Stanley Pines", 58);
+
+const cabana = new CabanaMisterio();
+cabana.adicionarFuncionario(dipper);
+cabana.adicionarFuncionario(mabel);
+cabana.adicionarFuncionario(stan);
+
+console.log("=== LISTA DE FUNCIONÁRIOS ===");
+console.log(cabana.listarFuncionarios
