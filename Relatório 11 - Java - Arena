@@ -1,0 +1,109 @@
+public class PadraoAtaque {
+    private String nome;
+    private int dano;
+
+    public PadraoAtaque(String nome, int dano) {
+        this.nome = nome;
+        this.dano = dano;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getDano() {
+        return dano;
+    }
+
+    @Override
+    public String toString() {
+        return nome + " (" + dano + " de dano)";
+    }
+}
+import java.util.LinkedHashSet;
+
+public class Boss {
+    private int pontoforce;
+    private LinkedHashSet<PadraoAtaque> moveset;
+
+    public Boss(int pontoforce, LinkedHashSet<PadraoAtaque> moveset) {
+        this.pontoforce = pontoforce;
+        this.moveset = moveset;
+    }
+
+    public int getPontoforce() {
+        return pontoforce;
+    }
+
+    public LinkedHashSet<PadraoAtaque> getMoveset() {
+        return moveset;
+    }
+
+    public void exibirMoveset() {
+        for (PadraoAtaque ataque : moveset) {
+            System.out.println("- " + ataque);
+        }
+    }
+}
+public class BossSmagic extends Boss {
+    public BossSmagic(int pontoforce, LinkedHashSet<PadraoAtaque> moveset) {
+        super(pontoforce, moveset);
+    }
+}
+public class Batalha {
+    private String nome;
+    private Boss boss;
+
+    public Batalha(String nome, Boss boss) {
+        this.nome = nome;
+        this.boss = boss;
+    }
+
+    public void iniciar() {
+        System.out.println("Iniciando batalha: " + nome);
+        System.out.println("Boss com força: " + boss.getPontoforce());
+        System.out.println("Moveset:");
+        boss.exibirMoveset();
+    }
+}
+import java.util.HashMap;
+
+public class Encontro {
+    private HashMap<String, Boss> mapaBoss;
+
+    public Encontro() {
+        mapaBoss = new HashMap<>();
+    }
+
+    public void adicionarBoss(String nome, Boss boss) {
+        mapaBoss.put(nome, boss);
+    }
+
+    public Batalha encontrarBatalha(String nomeBoss) {
+        if (mapaBoss.containsKey(nomeBoss)) {
+            return new Batalha("Arena contra " + nomeBoss, mapaBoss.get(nomeBoss));
+        } else {
+            System.out.println("Boss não encontrado: " + nomeBoss);
+            return null;
+        }
+    }
+}
+import java.util.LinkedHashSet;
+
+public class ArenaPrincipal {
+    public static void main(String[] args) {
+        LinkedHashSet<PadraoAtaque> ataquesSmagic = new LinkedHashSet<>();
+        ataquesSmagic.add(new PadraoAtaque("Explosão Arcana", 50));
+        ataquesSmagic.add(new PadraoAtaque("Raio Místico", 40));
+
+        BossSmagic smagic = new BossSmagic(120, ataquesSmagic);
+
+        Encontro encontro = new Encontro();
+        encontro.adicionarBoss("Smagic", smagic);
+
+        Batalha batalha = encontro.encontrarBatalha("Smagic");
+        if (batalha != null) {
+            batalha.iniciar();
+        }
+    }
+}
