@@ -1,0 +1,73 @@
+public class Cafe {
+    private String nome;
+    private double preco;
+
+    public Cafe(String nome, double preco) {
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public double calcularPreco() {
+        return preco;
+    }
+}
+public class CafeGourmet extends Cafe {
+    private double bonus;
+
+    public CafeGourmet(String nome, double preco, double bonus) {
+        super(nome, preco);
+        this.bonus = bonus;
+    }
+
+    @Override
+    public double calcularPreco() {
+        return super.calcularPreco() + bonus;
+    }
+
+    public double calcularPrecoComFundo() {
+        return calcularPreco(); // já inclui o bônus
+    }
+}
+import java.util.ArrayList;
+
+public class Menu {
+    private ArrayList<Cafe> itens;
+
+    public Menu() {
+        itens = new ArrayList<>();
+    }
+
+    public void adicionarItem(Cafe cafe) {
+        itens.add(cafe);
+    }
+
+    public void exibirMenu() {
+        System.out.println("Menu da Cafeteria Leblanc:");
+        for (Cafe cafe : itens) {
+            System.out.println("- " + cafe.getNome() + ": R$" + cafe.calcularPreco());
+        }
+    }
+}
+public class CafeteriaLeblanc {
+    public static void main(String[] args) {
+        Menu menu = new Menu();
+
+        Cafe expresso = new Cafe("Expresso", 5.00);
+        CafeGourmet caramelMacchiato = new CafeGourmet("Caramel Macchiato", 8.00, 2.50);
+
+        menu.adicionarItem(expresso);
+        menu.adicionarItem(caramelMacchiato);
+
+        menu.exibirMenu();
+
+        System.out.println("Preço com fundo do gourmet: R$" + caramelMacchiato.calcularPrecoComFundo());
+    }
+}
