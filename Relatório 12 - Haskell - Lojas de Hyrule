@@ -1,0 +1,46 @@
+-- Definição das categorias de itens
+data Categoria = Arma | Pocao | Equipamento
+  deriving (Show, Read, Eq)
+
+-- Definição do tipo Item
+data Item = Item
+  { nomeItem  :: String
+  , categoria :: Categoria
+  , precoItem :: Double
+  } deriving (Show)
+
+-- Definição do tipo CompraZelda
+data CompraZelda = CompraZelda
+  { itensCompra :: [Item]
+  } deriving (Show)
+
+-- Função que calcula o desconto de 10% se o total for maior que 200
+calculaDesconto :: [Item] -> Double
+calculaDesconto itens =
+  let total = sum (map precoItem itens)
+  in if total > 200 then total * 0.10 else 0.0
+
+-- Função que calcula o valor final da compra com guards
+valorFinal :: CompraZelda -> Double
+valorFinal (CompraZelda itens)
+  | total > 200 = total - calculaDesconto itens
+  | otherwise   = total + 15.0
+  where total = sum (map precoItem itens)
+
+-- Função principal com exemplos de uso
+main :: IO ()
+main = do
+  let espada = Item "Espada Mestre" Arma 150.0
+  let pocao  = Item "Poção de Vida" Pocao 30.0
+  let escudo = Item "Escudo Hyliano" Equipamento 80.0
+
+  let compra1 = CompraZelda [espada, pocao, escudo]
+  let compra2 = CompraZelda [pocao]
+
+  putStrLn "Compra 1:"
+  mapM_ print (itensCompra compra1)
+  putStrLn $ "Valor final: R$" ++ show (valorFinal compra1)
+
+  putStrLn "\nCompra 2:"
+  mapM_ print (itensCompra compra2)
+  putStrLn $ "Valor final: R$" ++ show (valorFinal compra2)
