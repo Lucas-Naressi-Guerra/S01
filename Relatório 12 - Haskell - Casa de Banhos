@@ -1,0 +1,63 @@
+-- Tipos de domínio
+data TipoServico = Banho | Massagem | Banquete
+  deriving (Show, Read, Eq)
+
+data Servico = Servico
+  { nomeServico :: String
+  , tipoServico :: TipoServico
+  , precoBase   :: Double
+  } deriving (Show)
+
+data StatusAtendimento = EmAndamento | Finalizado | Cancelado
+  deriving (Show, Read, Eq)
+
+data Atendimento = Atendimento
+  { servicos :: [Servico]
+  , status   :: StatusAtendimento
+  } deriving (Show)
+
+-- Função que calcula o bônus espiritual
+bonusEspiritual :: [Servico] -> Double
+bonusEspiritual ss =
+  let total = sum (map precoBase ss)
+      bonus = if length ss > 3 then total * 0.25 else 0.0
+      desconto = if total > 500 then total * 0.10 else 0.0
+  in total + bonus - desconto
+
+-- Função que calcula o valor final do atendimento
+valorFinalAtendimento :: Atendimento -> Double
+valorFinalAtendimento (Atendimento _ Cancelado) = 0.0
+valorFinalAtendimento (Atendimento ss _) = bonusEspiritual ss
+
+-- Função que retorna descrição do primeiro serviço
+descricaoPrimeiroServico :: Atendimento -> String
+descricaoPrimeiroServico (Atendimento [] _) = "Nenhum serviço registrado."
+descricaoPrimeiroServico (Atendimento (s:_) _) =
+  "Serviço: " ++ nomeServico s ++ " (" ++ show (tipoServico s) ++ ")"
+
+-- Função principal com exemplos
+main :: IO ()
+main = do
+  let s1 = Servico "Banho de Ervas" Banho 120.0
+  let s2 = Servico "Massagem Oni" Massagem 180.0
+  let s3 = Servico "Banquete Real" Banquete 250.0
+  let s4 = Servico "Banho de Vapor" Banho 100.0
+
+  let atendimento1 = Atendimento [s1, s2, s3, s4] EmAndamento
+  let atendimento2 = Atendimento [s2, s3] Finalizado
+  let atendimento3 = Atendimento [] Cancelado
+
+  putStrLn " Atendimento 1 (Em Andamento):"
+  print atendimento1
+  putStrLn $ "Valor final: R$" ++ show (valorFinalAtendimento atendimento1)
+  putStrLn $ descricaoPrimeiroServico atendimento1
+
+  putStrLn "\n Atendimento 2 (Finalizado):"
+  print atendimento2
+  putStrLn $ "Valor final: R$" ++ show (valorFinalAtendimento atendimento2)
+  putStrLn $ descricaoPrimeiroServico atendimento2
+
+  putStrLn "\n Atendimento 3 (Cancelado):"
+  print atendimento3
+  putStrLn $ "Valor final: R$" ++ show (valorFinalAtendimento atendimento3)
+  putStrLn $ descricaoPrimeiroServico atendimento3
