@@ -1,0 +1,51 @@
+import System.IO
+
+data Tipo = Cafe | Cha | Suco deriving (Show, Read, Eq)
+data Bebida = Bebida { nome :: String, tipo :: Tipo, preco :: Double } deriving (Show)
+data Status = Aberto | Entregue | Cancelado deriving (Show, Read, Eq)
+data Pedido = Pedido { bebidas :: [Bebida], status :: Status } deriving (Show)
+
+taxaServico :: Double
+taxaServico = 5.0
+
+valorTotalPedido :: Pedido -> Double
+valorTotalPedido (Pedido _ Cancelado) = 0
+valorTotalPedido (Pedido bs _) = sum (map preco bs) + taxaServico
+
+primeiraBebida :: Pedido -> String
+primeiraBebida (Pedido [] _) = "Pedido sem bebidas."
+primeiraBebida (Pedido (b:_) _) = nome b
+
+-- Função para ler uma bebida do terminal
+lerBebida :: IO Bebida
+lerBebida = do
+    putStrLn "Digite o nome da bebida:"
+    n <- getLine
+    putStrLn "Digite o tipo da bebida (Cafe, Cha, Suco):"
+    t <- getLine
+    putStrLn "Digite o preço da bebida:"
+    p <- getLine
+    let tipoBebida = read t :: Tipo
+    let precoBebida = read p :: Double
+    return (Bebida n tipoBebida precoBebida)
+
+-- Função para montar um pedido
+montarPedido :: IO Pedido
+montarPedido = do
+    putStrLn "Quantas bebidas deseja adicionar?"
+    qtdStr <- getLine
+    let qtd = read qtdStr :: Int
+    bebidas <- sequence (replicate qtd lerBebida)
+    putStrLn "Digite o status do pedido (Aberto, Entregue, Cancelado):"
+    s <- getLine
+    let statusPedido = read s :: Status
+    return (Pedido bebidas statusPedido)
+
+-- Função principal
+main :: IO ()
+main = do
+    pedido <- montarPedido
+    putStrLn "\nResumo do Pedido:"
+    print pedido
+    putStrLn $ "Valor total: R$" ++ show (valorTotalPedido pedido)
+    putStrLn $ "Primeira bebida: " ++ primeiraBebida pedido
