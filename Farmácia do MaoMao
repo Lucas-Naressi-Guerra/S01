@@ -1,0 +1,39 @@
+;; Função pura: calcula-dosagem
+(defun calcula-dosagem (peso-kg idade-anos)
+  (cond
+    ((or (< idade-anos 5) (< peso-kg 20)) 10)
+    ((and (>= idade-anos 5) (<= idade-anos 12) (>= peso-kg 20)) 25)
+    (t 50)))
+
+;; Função pura: ajusta-preco
+(defun ajusta-preco (preco-base nome-da-erva)
+  (cond
+    ((string= nome-da-erva "Ginseng") (* preco-base 3.0))
+    ((string= nome-da-erva "Lótus") (* preco-base 1.5))
+    (t preco-base)))
+
+;; Função composta: calcula-preco-final
+(defun calcula-preco-final (peso idade preco nome)
+  (let ((dosagem (calcula-dosagem peso idade))
+        (preco-ajustado (ajusta-preco preco nome)))
+    (* dosagem preco-ajustado)))
+
+;; Entrada de dados
+(format t "Digite o peso do paciente (kg): ")
+(setq peso (read))
+
+(format t "Digite a idade do paciente (anos): ")
+(setq idade (read))
+
+(format t "Digite o preço base da erva (moedas): ")
+(setq preco-base (read))
+
+(format t "Digite o nome da erva (ex: \"Ginseng\", \"Lótus\"): ")
+(setq nome-da-erva (read-line))
+
+;; Cálculo e saída
+(format t "~%Paciente: ~A anos, ~A kg~%" idade peso)
+(format t "Erva: ~A, Preço base: ~A~%" nome-da-erva preco-base)
+(format t "Dosagem: ~A ml~%" (calcula-dosagem peso idade))
+(format t "Preço ajustado: ~A moedas/ml~%" (ajusta-preco preco-base nome-da-erva))
+(format t "Preço final da dose: ~A moedas~%" (calcula-preco-final peso idade preco-base nome-da-erva))
