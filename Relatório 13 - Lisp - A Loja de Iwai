@@ -1,0 +1,52 @@
+;; 1. Definição da estrutura de item
+(defstruct item
+  nome
+  tipo
+  preco
+  forca-magica)
+
+;; 2. Funções puras de transformação
+(defun adiciona-imposto (preco)
+  (* preco 1.15))
+
+(defun bonus-maldicao (forca)
+  (if (> forca 80)
+      (* forca 1.5)
+      forca))
+
+;; 3. Função para cadastrar um item
+(defun cadastrar-item ()
+  (format t "~%Nome do item: ")
+  (let ((nome (read-line)))
+    (format t "Tipo (Arma, Pocao, Artefato): ")
+    (let ((tipo (read-line)))
+      (format t "Preço (moedas): ")
+      (let ((preco (read)))
+        (format t "Força mágica: ")
+        (let ((forca (read)))
+          (make-item :nome nome :tipo tipo :preco preco :forca-magica forca))))))
+
+;; 4. Função para montar o catálogo com entrada interativa
+(defun montar-catalogo (n)
+  (loop repeat n collect (cadastrar-item)))
+
+;; 5. Função processa-venda
+(defun processa-venda (catalogo)
+  (let ((armas (remove-if-not (lambda (i)
+                                (string= (item-tipo i) "Arma"))
+                              catalogo)))
+    (mapcar (lambda (i)
+              (let ((novo-preco (adiciona-imposto (item-preco i)))
+                    (nova-forca (bonus-maldicao (item-forca-magica i))))
+                (format nil "~A → Preço com imposto: ~A | Força mágica ajustada: ~A"
+                        (item-nome i) novo-preco nova-forca)))
+            armas)))
+
+;; 6. Execução principal
+(format t "~%Quantos itens deseja cadastrar? ")
+(setq n (read))
+(setq catalogo (montar-catalogo n))
+
+(format t "~%--- Relatório de venda de armas ---~%")
+(dolist (linha (processa-venda catalogo))
+  (format t "~A~%" linha))
