@@ -1,0 +1,53 @@
+;; Definição da estrutura criatura
+(defstruct criatura
+  nome
+  ambiente
+  periculosidade
+  vida-media)
+
+;; Função para cadastrar uma criatura
+(defun cadastrar-criatura ()
+  (format t "~%Nome da criatura: ")
+  (let ((nome (read-line)))
+    (format t "Ambiente: ")
+    (let ((ambiente (read-line)))
+      (format t "Periculosidade (Baixa, Média, Alta): ")
+      (let ((perigo (read-line)))
+        (format t "Vida média (em anos): ")
+        (let ((vida (read)))
+          (make-criatura :nome nome :ambiente ambiente :periculosidade perigo :vida-media vida))))))
+
+;; Função para cadastrar várias criaturas
+(defun montar-catalogo (n)
+  (loop repeat n collect (cadastrar-criatura)))
+
+;; Função HOF: filtra criaturas perigosas
+(defun filtra-por-perigo (catalogo)
+  (remove-if (lambda (c)
+               (string= (criatura-periculosidade c) "Baixa"))
+             catalogo))
+
+;; Função HOF: relatório de criaturas do ambiente "Deep"
+(defun relatorio-profundidade (catalogo)
+  (mapcar (lambda (c)
+            (format nil "~A: Vive em ~A" (criatura-nome c) (criatura-ambiente c)))
+          (remove-if-not (lambda (c)
+                           (string= (criatura-ambiente c) "Deep"))
+                         catalogo)))
+
+;; Execução principal
+(format t "~%Quantas criaturas deseja cadastrar? ")
+(setq n (read))
+(setq catalogo (montar-catalogo n))
+
+(format t "~%--- Criaturas perigosas ---~%")
+(dolist (c (filtra-por-perigo catalogo))
+  (format t "~A (~A) - Perigo: ~A, Vida média: ~A anos~%"
+          (criatura-nome c)
+          (criatura-ambiente c)
+          (criatura-periculosidade c)
+          (criatura-vida-media c)))
+
+(format t "~%--- Relatório de profundidade ---~%")
+(dolist (linha (relatorio-profundidade catalogo))
+  (format t "~A~%" linha))
